@@ -19,6 +19,13 @@
                 price: 5,
             }
         },
+        watch:{
+            price(){
+                setTimeout(() => {
+                    console.log("price changed")
+                },3000)
+            }
+        },
         computed:{
             total(){
                 return this.count * this.price
