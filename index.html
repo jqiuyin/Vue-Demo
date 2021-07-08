@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 11</title>
+    <title>lesson 12</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
@@ -14,23 +14,20 @@
     const app = Vue.createApp({
         data(){
             return {
-                list: ['dell','lee','teadcher'],
-                listObject: {
-                    first: 'bee',
-                    second: 'lee',
-                    last: 'teacher'
-                }
+                counter: 0
             }
         },
         methods:{
-            handleAddBtnClick(){
-                this.listObject.age=100;
+            handleKeyDown(){
+                console.log('keydown')
             }
         },
         template: `
         <div>
-            <div v-for="(value,key,index) in listObject" :key="index">{{ value }}--{{ key }}</div>
-            <button @click="handleAddBtnClick">新增</button>
+            
+            <div @click.ctrl.exact="handleKeyDown">
+            123
+            </div>
         </div>
         `
     });
