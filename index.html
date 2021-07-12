@@ -4,27 +4,46 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 13</title>
+    <title>lesson 14</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
     <div id="root"></div>
 </body>
 <script>
-    const app = Vue.createApp({
+    const counter = {
         data(){
             return {
-                message: "hello",
+                counter: 1
             }
         },
-        template: `
-        <div>
-            <div @click.ctrl.exact="handleKeyDown">
-            123
-            </div>
-        </div>
-        `
+        template: '<div @click="counter += 1">{{counter}}</div>',
+    }
+
+    const app = Vue.createApp({
+        components: {
+            counter: counter
+        },
+        template: `<div>
+            <counter/>
+            <counter/>
+            </div>`
     });
+
+
+    // app.component('counter-parent',{
+
+    //     template: '<counter/>',
+    // })
+    // app.component('counter',{
+        
+    //     data(){
+    //         return {
+    //             counter: 1
+    //         }
+    //     },
+    //     template: '<div @click="counter += 1">{{counter}}</div>',
+    // })
 
     const vm = app.mount('#root')
 </script>
