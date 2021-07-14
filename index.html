@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 15</title>
+    <title>lesson 16</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
@@ -14,22 +14,20 @@
     const app = Vue.createApp({
         data(){
             return {
-                num: 1232
-            }
-        },
-        template: `<div><test :content="num"/></div>`
-    });
-    app.component('test',{
-        props: {
-            content: {
-                type: Number,
-                validator: function(value){
-                    return value < 1000;
-                }
-            }
-        },
+                num: 123
 
-        template: `<div >{{content}}</div>`
+            }
+        },
+        template: `<div><counter :count="num"/></div>`
+    });
+    app.component('counter',{
+        props: ['count'],
+        data(){
+            return{
+                myCount: this.count
+            }
+        },
+        template: `<div @click="myCount += 1">{{myCount}}</div>`
     })
     const vm = app.mount('#root')
 </script>
