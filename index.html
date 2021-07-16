@@ -12,22 +12,17 @@
 </body>
 <script>
     const app = Vue.createApp({
-        data(){
-            return {
-                num: 123
-
-            }
-        },
-        template: `<div><counter :count="num"/></div>`
+        template: `<div><counter msg="hello" msg1="world"/></div>`
     });
     app.component('counter',{
-        props: ['count'],
-        data(){
-            return{
-                myCount: this.count
-            }
+        // inheritAttrs: false,
+        mounted(){
+            console.log(this.$attrs.msg)
         },
-        template: `<div @click="myCount += 1">{{myCount}}</div>`
+        template: `<div :msg="$attrs.msg">Counter</div>
+                    <div v-bind="$attrs">Counter</div>
+                    <div>Counter</div>
+        `
     })
     const vm = app.mount('#root')
 </script>
