@@ -4,43 +4,51 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 20</title>
+    <title>lesson 21</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
     <div id="root"></div>
 </body>
 <script>
+    const AsyncCommonItem = Vue.defineAsyncComponent(() =>{
+        return new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                template: `<div> this is an sync component</div>`
+            },4000)
+        })
+    })
+
     const app = Vue.createApp({
         data(){
             return{
-                text: '提交'
+                currentItem: "input-item"
             }
         },
+
         template: 
         `
-            <list v-slot="{item}">
-                <span>{{item}}</sapn>    
-            </list>
-            
+        <div>
+            <common-item/>
+            <async-common-item/>
+        </div>
         `,
     });
 
-    app.component('test',{
-        template: `<div>test</div>`
-    })
-    app.component('list',{
-        data(){
-            return {
-                list: [1,2,3]
-            }
-        },
-        template: `
-                    <div>
-                        <slot v-for="item in list" :item="item"/>
-                    </div>
-        `
-    })
+    app.component('common-item',{
+        template: `<div>hello world</div>`
+    });
+
+    app.component('async-common-item', Vue.defineAsyncComponent(() => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve({
+                        template: `<div> this is an sync component</div>`
+                    })
+                    
+                }, 4000)
+            })
+        }))
     const vm = app.mount('#root')
 </script>
 </html>
