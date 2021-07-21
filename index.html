@@ -17,34 +17,27 @@
                 text: '提交'
             }
         },
-        template: `
-            <div >
-                <layout>
-                    <template v-slot:header>
-                    <div>header</div>
-                    </template>
-                    <template v-slot:footer>
-                    <div>footer</div>
-                    </template>
-                </layout>
-            </div>`,
+        template: 
+        `
+            <list v-slot="{item}">
+                <span>{{item}}</sapn>    
+            </list>
+            
+        `,
     });
 
     app.component('test',{
         template: `<div>test</div>`
     })
-    app.component('layout',{
-        methods:{
-
-            handleClick(){
-                alert(123)
+    app.component('list',{
+        data(){
+            return {
+                list: [1,2,3]
             }
         },
         template: `
                     <div>
-                        <slot name="header"></slot>
-                        <div>content</div>
-                        <slot name="footer"></slot>
+                        <slot v-for="item in list" :item="item"/>
                     </div>
         `
     })
