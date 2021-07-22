@@ -4,51 +4,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 21</title>
+    <title>lesson 22</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
     <div id="root"></div>
 </body>
 <script>
-    const AsyncCommonItem = Vue.defineAsyncComponent(() =>{
-        return new Promise((resolve,reject)=>{
-            setTimeout(()=>{
-                template: `<div> this is an sync component</div>`
-            },4000)
-        })
-    })
+
 
     const app = Vue.createApp({
         data(){
             return{
-                currentItem: "input-item"
+                count: 1
             }
         },
-
+        provide(){
+            return {
+                count:this.count
+            }
+        },
         template: 
         `
         <div>
-            <common-item/>
-            <async-common-item/>
+            <child />
+            <
         </div>
         `,
     });
 
-    app.component('common-item',{
-        template: `<div>hello world</div>`
-    });
 
-    app.component('async-common-item', Vue.defineAsyncComponent(() => {
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    resolve({
-                        template: `<div> this is an sync component</div>`
-                    })
-                    
-                }, 4000)
-            })
-        }))
+    app.component('child',{
+        props:['count'],
+        template: `<child-child />`
+    })
+
+    app.component('child-child', {
+            inject:['count'],
+            template: `<div>{{count}}</div>`
+        })
     const vm = app.mount('#root')
 </script>
 </html>
