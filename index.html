@@ -4,7 +4,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 22</title>
+    <title>lesson 23</title>
+    <style>
+        /* @keyframes leftToRight {
+            0% {
+                transform: translateX(-100px);
+            }
+            50% {
+                transform: translateX(-50px);
+            }
+            0% {
+                transform: translateX(0px);
+            }
+        }
+        .animation{
+            animation: leftToRight 3s;
+        } */
+        .transition{
+            transition: 3s background-color ease;
+        }
+        .blue{
+            background: blue;
+        }
+        .green{
+            background: green;
+        }
+
+    </style>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
@@ -16,33 +42,36 @@
     const app = Vue.createApp({
         data(){
             return{
-                count: 1
+                animate: {
+                    animation: false,
+                    transition: true,
+                    blue: true,
+                    green: false
+                },
+                styleObj:{
+                    background: 'blue'
+                }
             }
         },
-        provide(){
-            return {
-                count:this.count
+        methods:{
+            handleClick(){
+                if(this.styleObj.background==='blue'){
+                    this.styleObj.background='green'
+                }else{
+                    this.styleObj.background='blue'
+                }
             }
         },
         template: 
         `
         <div>
-            <child />
-            <
+            <div class="transition" :style="styleObj">hello world</div>
+            <button @click="handleClick">切换</button>
         </div>
         `,
     });
 
 
-    app.component('child',{
-        props:['count'],
-        template: `<child-child />`
-    })
-
-    app.component('child-child', {
-            inject:['count'],
-            template: `<div>{{count}}</div>`
-        })
     const vm = app.mount('#root')
 </script>
 </html>
