@@ -4,30 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 23</title>
+    <title>lesson 24</title>
     <style>
-        /* @keyframes leftToRight {
-            0% {
+        @keyframes shake {
+            0%{
                 transform: translateX(-100px);
             }
-            50% {
+            50%{
                 transform: translateX(-50px);
             }
-            0% {
-                transform: translateX(0px);
+            100%{
+                transform: translateX(50px);
             }
         }
-        .animation{
-            animation: leftToRight 3s;
-        } */
-        .transition{
-            transition: 3s background-color ease;
+        .hello-leave-active{
+            animation: shake 3s
         }
-        .blue{
-            background: blue;
-        }
-        .green{
-            background: green;
+        .hello-enter-active{
+            animation: shake 3s
         }
 
     </style>
@@ -42,30 +36,20 @@
     const app = Vue.createApp({
         data(){
             return{
-                animate: {
-                    animation: false,
-                    transition: true,
-                    blue: true,
-                    green: false
-                },
-                styleObj:{
-                    background: 'blue'
-                }
+                show: false
             }
         },
         methods:{
             handleClick(){
-                if(this.styleObj.background==='blue'){
-                    this.styleObj.background='green'
-                }else{
-                    this.styleObj.background='blue'
-                }
+                this.show=!this.show
             }
         },
         template: 
         `
         <div>
-            <div class="transition" :style="styleObj">hello world</div>
+            <transition name="hello">
+                <div v-if="show">hello world</div>
+            </transition>
             <button @click="handleClick">切换</button>
         </div>
         `,
