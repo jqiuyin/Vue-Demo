@@ -17,11 +17,20 @@
                 transform: translateX(50px);
             }
         }
-        .hello-leave-active{
-            animation: shake 3s
+        .v-enter-from{
+            color: red;
         }
-        .hello-enter-active{
-            animation: shake 3s
+        .v-enter-active{
+            animation: shake 3s;
+            transition: color 3s ease-in;
+        }
+        .v-leave-from{
+            color: black
+        }
+        .v-leave-active{
+            color: red;
+            animation: shake 3s;
+            transition: all 3s ease-in;
         }
 
     </style>
@@ -47,8 +56,8 @@
         template: 
         `
         <div>
-            <transition name="hello">
-                <div v-if="show">hello world</div>
+            <transition >
+                <div v-show="show">hello world</div>
             </transition>
             <button @click="handleClick">切换</button>
         </div>
