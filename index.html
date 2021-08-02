@@ -21,7 +21,7 @@
             color: red;
         }
         .v-enter-active{
-            animation: shake 3s;
+            animation: shake 10s;
             transition: color 3s ease-in;
         }
         .v-leave-from{
@@ -29,7 +29,7 @@
         }
         .v-leave-active{
             color: red;
-            animation: shake 3s;
+            animation: shake 10s;
             transition: all 3s ease-in;
         }
 
@@ -51,12 +51,36 @@
         methods:{
             handleClick(){
                 this.show=!this.show
+            },
+            handleBeforeEnter(el){
+                el.style.color="red";
+            },
+            handleEnterActive(el,done){
+                const animation= setInterval(() => {
+                    const color = el.style.color;
+                    if(color === "red"){
+                        el.style.color = "green";
+                    } else {
+                        el.style.color="red";
+                    }
+                }, 1000)
+                setTimeout(() => {
+                    clearInterval(animation);
+                    done();
+                },3000)
+            },
+            handleEnterEnd(){
+                alert(123);
             }
         },
         template: 
         `
         <div>
-            <transition >
+            <transition :css="false" 
+                @before-enter="handleBeforeEnter"
+                @enter="handleEnterActive"
+                @after-enter="handleEnterEnd"
+            >
                 <div v-show="show">hello world</div>
             </transition>
             <button @click="handleClick">切换</button>
