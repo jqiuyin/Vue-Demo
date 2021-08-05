@@ -4,35 +4,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 24</title>
+    <title>lesson 25</title>
     <style>
-        @keyframes shake {
-            0%{
-                transform: translateX(-100px);
-            }
-            50%{
-                transform: translateX(-50px);
-            }
-            100%{
-                transform: translateX(50px);
-            }
-        }
         .v-enter-from{
-            color: red;
+            opacity: 0;
         }
         .v-enter-active{
-            animation: shake 10s;
-            transition: color 3s ease-in;
+            transition: opacity 1s ease-in ;
+        }
+        .v-enter-to{
+            opacity: 1;
         }
         .v-leave-from{
-            color: black
+            opacity: 1;
         }
         .v-leave-active{
-            color: red;
-            animation: shake 10s;
-            transition: all 3s ease-in;
+            transition: opacity 1s ease-in ;
         }
-
+        .v-leave-to{
+            opacity: 0;
+        }
     </style>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
@@ -41,47 +32,39 @@
 </body>
 <script>
 
-
+    const ComponentA={
+        template: '<div>hello world</div>'
+    }
+    const ComponentB = {
+            template: '<div>bye world</div>'
+    }
     const app = Vue.createApp({
         data(){
             return{
-                show: false
+                show: false,
+                component: 'component-a'
             }
         },
         methods:{
             handleClick(){
-                this.show=!this.show
+                if(this.component === 'component-a'){
+                    this.component = 'component-b'
+                } else{
+                    this.component = 'component-a'
+                }
             },
-            handleBeforeEnter(el){
-                el.style.color="red";
-            },
-            handleEnterActive(el,done){
-                const animation= setInterval(() => {
-                    const color = el.style.color;
-                    if(color === "red"){
-                        el.style.color = "green";
-                    } else {
-                        el.style.color="red";
-                    }
-                }, 1000)
-                setTimeout(() => {
-                    clearInterval(animation);
-                    done();
-                },3000)
-            },
-            handleEnterEnd(){
-                alert(123);
-            }
+        },
+        components:{
+            'component-a':ComponentA,
+            'component-b':ComponentB,
         },
         template: 
         `
         <div>
-            <transition :css="false" 
-                @before-enter="handleBeforeEnter"
-                @enter="handleEnterActive"
-                @after-enter="handleEnterEnd"
-            >
-                <div v-show="show">hello world</div>
+            <transition mode="out-in" appear>
+                <component :is="component"/>
+                <component-a v-if="show"/>
+                <component-b v-else="show"/>
             </transition>
             <button @click="handleClick">切换</button>
         </div>
