@@ -4,26 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 26</title>
+    <title>lesson 27</title>
     <style>
-        .v-enter-from{
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        .v-enter-active{
-            transition: all .5s ease-in;
-        }
-        .v-enter-to{
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .v-move{
-            transition: all .5s ease-in;
-        }
-        .list-item{
-            display: inline-block;
-            margin-right: 10px;
-        }
+
     </style>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
@@ -34,20 +17,28 @@
     const app = Vue.createApp({
         data(){
             return{
-                list: [1,2,3]
+                number: 1,
+                animateNumber: 1,
             }
         },
         methods:{
             handleClick(){
-                this.list.unshift(this.list.length + 1 );
+                this.number=10;
+                if (this.animateNumber < this.number){
+                    const animation = setInterval(() => {
+                        this.animateNumber += 1;
+                        if (this.animateNumber === 10) {
+                            clearInterval(animation);
+                        }
+                    }, 100);
+                }
+
             },
         },
         template: 
         `
         <div>
-            <transition-group>
-            <span class="list-item" v-for="item in list" :key="item">{{ item }}</span>
-            </transition-group>
+            <div>{{ animateNumber }}</div>
             <button @click="handleClick">增加</button>
         </div>
         `,
