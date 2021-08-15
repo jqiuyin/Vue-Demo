@@ -4,67 +4,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 30</title>
-    <style>
-        .area{
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translateX(-50%,-50%);
-            height: 300px;
-            width: 200px;
-            background: green;
-        }
-        .mask{
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            background: #000;
-            opacity: 0.5;
-        }
-    </style>
+    <title>lesson 31</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
     <div id="root"></div>
-    <div id="hello"></div>
 </body>
 <script>
-
-
-    // const directives = {
-    //         focus: {
-    //             mounted(el) {
-    //                 el.focus();
-    //             }
-    //         }
-    //     }
-
     const app = Vue.createApp({
-        data(){
-            return {
-                show: false,
-                message: 'hello',
-            }
-        },
-        // directives: directives,
-        methods:{
-            handleBtnClick(){
-                this.show=!this.show
-            }
-        },
+
         template: 
         `
-        <div class="area">
-            <button @click="handleBtnClick">按钮</button>
-            <teleport to="#hello">
-                <div class="mask" v-show="show">{{ message }}</div>
-            </teleport>
+        <div>
+            <my-title :level="3">hello</my-title>
         </div>
         `,
     });
+
+    app.component('my-title',{
+        props:['level'],
+        render(){
+            const {h}=Vue;
+            return h('h'+this.level,{},
+            [this.$slots.default(),h('h4',{},'dell')])
+        }
+        // template: 
+        // `
+        // <h1 v-if="level === 1">
+        //     <slot/>
+        // </h1>
+        // <h2 v-if="level === 2">
+        //     <slot/>
+        // </h2>
+        // `,
+    })
 
     const vm = app.mount('#root')
 </script>
