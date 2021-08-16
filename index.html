@@ -4,41 +4,47 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 31</title>
+    <title>lesson 33</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
     <div id="root"></div>
 </body>
 <script>
+    const myPlugin={
+        install(app,options){
+            app.provide('name','dell lee')
+            app.directive('focus',{
+                mounted(el){
+                    el.focus();
+                }
+            })
+            app.mixin({
+                mounted(){
+                    console.log('mixin')
+                }
+            })
+            app.config.globalProperties.$sayHello='hello world';
+        }
+    }
     const app = Vue.createApp({
 
         template: 
         `
         <div>
-            <my-title :level="3">hello</my-title>
+            <my-title />
         </div>
         `,
     });
 
     app.component('my-title',{
-        props:['level'],
-        render(){
-            const {h}=Vue;
-            return h('h'+this.level,{},
-            [this.$slots.default(),h('h4',{},'dell')])
-        }
-        // template: 
-        // `
-        // <h1 v-if="level === 1">
-        //     <slot/>
-        // </h1>
-        // <h2 v-if="level === 2">
-        //     <slot/>
-        // </h2>
-        // `,
+        inject:['name'],
+        mounted(){
+            console.log(this.$sayHello)
+        },
+        template: `<div>{{name}}<input v-focus /></div>`
     })
-
+    app.use(myPlugin,{name:'dell'})
     const vm = app.mount('#root')
 </script>
 </html>
