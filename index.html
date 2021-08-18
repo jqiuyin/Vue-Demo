@@ -11,40 +11,50 @@
     <div id="root"></div>
 </body>
 <script>
-    const myPlugin={
-        install(app,options){
-            app.provide('name','dell lee')
-            app.directive('focus',{
-                mounted(el){
-                    el.focus();
-                }
-            })
-            app.mixin({
-                mounted(){
-                    console.log('mixin')
-                }
-            })
-            app.config.globalProperties.$sayHello='hello world';
-        }
-    }
-    const app = Vue.createApp({
 
+
+
+    const app = Vue.createApp({
+        data(){
+            return {
+                name: 'dell',
+                age:28
+            }
+        },
         template: 
         `
         <div>
-            <my-title />
+            name:{{name}},age{{age}}
         </div>
         `,
+        rules:{
+            age:{
+                validate: (age) =>{return age >25},
+                message: 'too young, too simpale'
+            },
+            name:{
+                validate: (age) =>name.length>=4,
+                message: 'too short'
+            }
+        }
     });
 
-    app.component('my-title',{
-        inject:['name'],
-        mounted(){
-            console.log(this.$sayHello)
-        },
-        template: `<div>{{name}}<input v-focus /></div>`
-    })
-    app.use(myPlugin,{name:'dell'})
+    const validatorPlugin=(app,options)=>{
+        app.mixin({
+            created(){
+                for (let key in this.$options.rules){
+                    const item = this.$options.rules[key];
+                    this.$watch(key,(value)=>{
+                        const result = item.validate(value);
+                        if(!result) console.log(item.message);
+                    })
+                }
+                
+            }
+        })
+    }
+
+    app.use(validatorPlugin)
     const vm = app.mount('#root')
 </script>
 </html>
