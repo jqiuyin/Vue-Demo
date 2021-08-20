@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 33</title>
+    <title>lesson 34</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
@@ -15,46 +15,31 @@
 
 
     const app = Vue.createApp({
-        data(){
-            return {
-                name: 'dell',
-                age:28
+        methods:{
+            test(){
+                console.log(this.$options.setup())
             }
+        },
+        mounted(){
+            this.test()
         },
         template: 
         `
-        <div>
-            name:{{name}},age{{age}}
+        <div @click="handleClick">
+            {{name}}
         </div>
         `,
-        rules:{
-            age:{
-                validate: (age) =>{return age >25},
-                message: 'too young, too simpale'
-            },
-            name:{
-                validate: (age) =>name.length>=4,
-                message: 'too short'
+        setup(props, context){
+
+            return {
+                name: 'dell',
+                handleClick: ()=>{
+                    alert(123)
+                }
             }
         }
     });
 
-    const validatorPlugin=(app,options)=>{
-        app.mixin({
-            created(){
-                for (let key in this.$options.rules){
-                    const item = this.$options.rules[key];
-                    this.$watch(key,(value)=>{
-                        const result = item.validate(value);
-                        if(!result) console.log(item.message);
-                    })
-                }
-                
-            }
-        })
-    }
-
-    app.use(validatorPlugin)
     const vm = app.mount('#root')
 </script>
 </html>
