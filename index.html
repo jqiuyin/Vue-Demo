@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 34</title>
+    <title>lesson 35</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
@@ -20,24 +20,33 @@
                 console.log(this.$options.setup())
             }
         },
-        mounted(){
-            this.test()
-        },
         template: 
         `
-        <div @click="handleClick">
+        <div>
             {{name}}
         </div>
         `,
         setup(props, context){
+            // const { ref } = Vue;
+            // let name = ref('dell');
+            // setTimeout(()=>{
+            //     name.value ='lee'
+            // },2000)
+            // return {
+            //     name
+            // }
+            const {reactive,readonly,toRefs} =Vue;
+            const nameObj = reactive({name:'dell',age:28})
+            // const copyNameObj = readonly(nameObj)
+            setTimeout(()=>{
+                nameObj.name ='lee'
+                // copyNameObj.name='lee'
+            },2000)
 
-            return {
-                name: 'dell',
-                handleClick: ()=>{
-                    alert(123)
-                }
-            }
+            const {name,age} = toRefs(nameObj)
+            return {name}
         }
+
     });
 
     const vm = app.mount('#root')
