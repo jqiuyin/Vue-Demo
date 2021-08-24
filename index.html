@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 35</title>
+    <title>lesson 36</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
@@ -16,39 +16,37 @@
 
     const app = Vue.createApp({
         methods:{
-            test(){
-                console.log(this.$options.setup())
+            handleChange(){
+                alert('change')
             }
         },
+
         template: 
         `
-        <div>
-            {{name}}
-        </div>
-        `,
-        setup(props, context){
-            // const { ref } = Vue;
-            // let name = ref('dell');
-            // setTimeout(()=>{
-            //     name.value ='lee'
-            // },2000)
-            // return {
-            //     name
-            // }
-            const {reactive,readonly,toRefs} =Vue;
-            const nameObj = reactive({name:'dell',age:28})
-            // const copyNameObj = readonly(nameObj)
-            setTimeout(()=>{
-                nameObj.name ='lee'
-                // copyNameObj.name='lee'
-            },2000)
+        <child @change="handleChange">parent</child>
+        `
 
-            const {name,age} = toRefs(nameObj)
-            return {name}
-        }
 
     });
 
+    app.component('child',{
+        template:`
+            <div @click="handleClick">123</div>
+        `,
+        // mounted(){
+        //     this.$emit('change')
+        // },
+        setup(props, context){
+            const{h}=Vue;
+            const {attrs,slots,emit}= context;
+            function handleClick(){
+                emit('change')
+            }
+            return{
+                handleClick
+            }
+        }
+    })
     const vm = app.mount('#root')
 </script>
 </html>
