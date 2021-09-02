@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 38</title>
+    <title>lesson 39</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
@@ -12,31 +12,39 @@
 </body>
 <script>
     const app = Vue.createApp({
-        setup(){
-            const {reactive,computed} = Vue;
-            const countObj = reactive({count: 0});
-            const handleClick = () => {
-                countObj.count += 1;
-            }
-            let conutAddFive = computed({
-                get: () => {
-                    return countObj.count + 5;
-                },
-                set: (param)=>{
-                    return countObj.count =param-5;
-                }
+            setup(){
+                const {reactive,watch,toRefs,watchEffect} = Vue;
+                const nameObj = reactive({name:'dell',englishname:'lee'})
+            watch([()=>nameObj.name,()=>nameObj.englishname],([curName,curEng],[prevName,prevEng])=>{
+                    console.log('watch',curName,prevName,'--',curEng,prevEng)
+                })
+            const stop=watchEffect(()=>{
+                console.log(nameObj.name)
+                setTimeout(()=>{
+                    stop();
+                },5000)
             })
-            setTimeout(()=>{
-                conutAddFive.value = 100;
-            },3000)
+
+            const {name,englishname}=toRefs(nameObj)
             return{
-                countObj, conutAddFive, handleClick
-            }
+                name,englishname
+                }
         },
         template: 
         `
         <div>
-            <span @click="handleClick">{{countObj.count}}</span> -- {{conutAddFive}}
+            <div>
+            Name: <input v-model="name">
+            </div>
+            <div>
+            Name is {{ name }}
+            </div>
+            <div>
+            EnglishName: <input v-model="englishname">
+            </div>
+            <div>
+            Name is {{ englishname }}
+            </div>
         </div>
         `
 
