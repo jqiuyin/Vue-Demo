@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 39</title>
+    <title>lesson 40</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
@@ -12,38 +12,37 @@
 </body>
 <script>
     const app = Vue.createApp({
-            setup(){
-                const {reactive,watch,toRefs,watchEffect} = Vue;
-                const nameObj = reactive({name:'dell',englishname:'lee'})
-            watch([()=>nameObj.name,()=>nameObj.englishname],([curName,curEng],[prevName,prevEng])=>{
-                    console.log('watch',curName,prevName,'--',curEng,prevEng)
-                })
-            const stop=watchEffect(()=>{
-                console.log(nameObj.name)
-                setTimeout(()=>{
-                    stop();
-                },5000)
+        setup(){
+            const {onBeforeMount,onMounted,onBeforeUpdate,ref,onUpdated,onRenderTracked,onRenderTriggered}=Vue;
+            const name=ref('name')
+            onBeforeMount(()=>{
+                console.log('onBeforeMount')
             })
-
-            const {name,englishname}=toRefs(nameObj)
-            return{
-                name,englishname
-                }
+            onMounted(()=>{
+                console.log('onMounted')
+            })
+            onBeforeUpdate(()=>{
+                console.log('onBeforeUpdate')
+            })
+            onUpdated(()=>{
+                console.log('onUpdated')
+            })
+            const handleClick=()=>{
+                name.value='lee'
+            }
+            onRenderTracked(()=>{
+                console.log('onRenderTracked')
+            })
+            onRenderTriggered(()=>{
+                console.log('onRenderTriggered')
+            })
+            return{name,handleClick}
         },
         template: 
         `
         <div>
-            <div>
-            Name: <input v-model="name">
-            </div>
-            <div>
-            Name is {{ name }}
-            </div>
-            <div>
-            EnglishName: <input v-model="englishname">
-            </div>
-            <div>
-            Name is {{ englishname }}
+            <div @click="handleClick">
+                {{name}}
             </div>
         </div>
         `
