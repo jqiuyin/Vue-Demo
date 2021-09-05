@@ -4,52 +4,60 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lesson 40</title>
+    <title>lesson 41</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
     <div id="root"></div>
 </body>
 <script>
+    // const app = Vue.createApp({
+
+    //     setup(){
+    //         const {ref,provide,readonly}=Vue;
+    //         const name= ref('dell')
+    //         provide('name',readonle(name))
+    //         provide('changeName',(value)=>{
+    //             name.value=value
+    //         })
+    //         return{}
+    //     },
+    //     template: 
+    //     `
+    //     <div>
+    //         <child />
+    //     </div>
+    //     `
+    // });
+    // app.component('child',{
+    //     setup(){
+    //         const{inject}=Vue;
+    //         const name=inject('name');
+    //         const changeName=inject('changeName')
+    //         const handleClick=()=>{
+    //             changeName('lee');
+    //         }
+    //         return {name,handleClick}
+    //     },
+    //     template:'<div @click="handleClick">{{name}}</div>'
+    // })
+
     const app = Vue.createApp({
         setup(){
-            const {onBeforeMount,onMounted,onBeforeUpdate,ref,onUpdated,onRenderTracked,onRenderTriggered}=Vue;
-            const name=ref('name')
-            onBeforeMount(()=>{
-                console.log('onBeforeMount')
-            })
+            const {ref,onMounted}=Vue;
+            const hello = ref(null)
             onMounted(()=>{
-                console.log('onMounted')
+                console.log(hello.value)
             })
-            onBeforeUpdate(()=>{
-                console.log('onBeforeUpdate')
-            })
-            onUpdated(()=>{
-                console.log('onUpdated')
-            })
-            const handleClick=()=>{
-                name.value='lee'
-            }
-            onRenderTracked(()=>{
-                console.log('onRenderTracked')
-            })
-            onRenderTriggered(()=>{
-                console.log('onRenderTriggered')
-            })
-            return{name,handleClick}
+            return{hello}
         },
         template: 
         `
         <div>
-            <div @click="handleClick">
-                {{name}}
-            </div>
+            <div ref="hello">hello world</div>
         </div>
         `
-
-
     });
-
 
     const vm = app.mount('#root')
 </script>
