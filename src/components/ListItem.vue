@@ -1,10 +1,10 @@
 <template>
-    <h1>{{ msg }}</h1>
+    <li class="button">{{ msg }}</li>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'ListItem',
   props: {
     msg: String
   }
