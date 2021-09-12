@@ -1,24 +1,24 @@
 <template>
   <div class="about">
     <h1 @click="handleClick">This is an about page</h1>
-    <h1>{{myName}}</h1>
+    <h1>{{name}}</h1>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-
+import {toRefs} from 'vue'
+import {useStore} from 'vuex'
 export default {
-  name: 'Home',
-  computed: {
-    myName(){
-      return this.$store.state.name;
+    name: 'Home',
+    setup(){
+    const store = useStore();
+    const {name} = toRefs(store.state);
+    const handleClick = ()=>{
+      store.dispatch('getData')
     }
-  },
-  methods:{
-    handleClick(){
-      this.$store.dispatch('change','hello');
-
+    return{
+      name,handleClick
     }
   }
 }

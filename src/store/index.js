@@ -5,14 +5,14 @@ export default createStore({
     name: 'dell'
   },
   mutations: {
-    change(state,str){
+    changeName(state,str){
       state.name=str
     }
   },
   actions: {
-    change(state,str){
+    getData(state){
       setTimeout(()=>{
-        state.commit('change',str)
+        state.commit('changeName','hello')
       },2000)
 
     }
