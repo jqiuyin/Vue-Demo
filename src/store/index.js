@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-
+import axios from 'axios'
 export default createStore({
   state: {
     name: 'dell'
@@ -10,10 +10,12 @@ export default createStore({
     }
   },
   actions: {
-    getData(state){
-      setTimeout(()=>{
-        state.commit('changeName','hello')
-      },2000)
+    getData(store){
+      axios.get('https://www.fastmock.site/mock/ae8e9031947a302fed5f92425995aa19/jd/api/user/register')
+      .then((response)=>{
+        const msg =response.data.desc
+        store.commit('changeName',msg)
+      })
 
     }
   },
