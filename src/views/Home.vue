@@ -1,22 +1,18 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <h1>{{name}}</h1>
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
 <script>
-import { toRefs } from 'vue';
 // @ is an alias to /src
-import {useStore} from 'vuex';
+import HelloWorld from '@/components/HelloWorld.vue'
+
 export default {
   name: 'Home',
-  setup(){
-    const store = useStore();
-    const {name} = toRefs(store.state)
-    return{
-      name
-    }
+  components: {
+    HelloWorld
   }
 }
 </script>
