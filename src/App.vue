@@ -5,6 +5,13 @@
       北京理工大学
       <span class="iconfont position__notice">&#xe7e5;</span>
     </div>
+    <div class="search">
+      <span class="iconfont">&#xe6c6;</span>
+      山姆会员商店优惠商品
+    </div>
+    <div class="banner">
+      <img class="banner__img" src="http://www.dell-lee.com/imgs/vue3/banner.jpg"/>
+    </div>
   </div>
   <div class="docker">
     <div class="docker__item docker__item--active">
@@ -56,6 +63,29 @@
     right: 0;
     top: .17rem;
     font-size: .2rem;
+  }
+}
+.search{
+  margin-bottom: .12rem;
+  line-height: .32rem;
+  background: #F5F5F5;
+  color: #B7B7B7;
+  border-radius: .16rem;
+  font-size: .14rem;
+  .iconfont{
+    position: relative;
+    top: .04rem;
+    font-size: .2rem;
+    display: inline-block;
+    padding: 0 .08rem 0 .16rem ;
+  }
+}
+.banner{
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 25.4%;
+  &__img{
+    width: 100%;
   }
 }
 .docker{
