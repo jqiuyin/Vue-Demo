@@ -8,7 +8,13 @@
       <input placeholder="用户名" class="wrapper__input__content"  v-model="username"/>
     </div>
     <div class="wrapper__input">
-      <input placeholder="请输入密码" type="password" class="wrapper__input__content" v-model="password"/>
+      <input
+        placeholder="请输入密码"
+        type="password"
+        class="wrapper__input__content"
+        v-model="password"
+        autocomplete="new-password"
+      />
     </div>
     <div class="wrapper__login-button" @click="handleLogin">登录</div>
     <div class="wrapper__login-link" @click="handleRegisterClick">立即注册</div>
@@ -60,7 +66,7 @@ export default {
   setup () {
     const { show, toastMessage, showToast } = useToastEffect()
     const { username, password, handleLogin } = useLoginEffect(showToast)
-    const { handleRegisterClick } = useRegisterEffect
+    const { handleRegisterClick } = useRegisterEffect()
     return { handleLogin, handleRegisterClick, username, password, show, toastMessage }
   }
 }
