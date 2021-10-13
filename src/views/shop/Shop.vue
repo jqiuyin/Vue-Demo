@@ -1,10 +1,13 @@
 <template>
   <div class="wrapper">
   <div class="search">
-    <div class="search__back iconfont">&#xe6db;</div>
+    <div
+      class="search__back iconfont"
+      @click="handleBackClick"
+    >&#xe6db;</div>
     <div class="search__content">
-      <span class="search__content__icon"></span>
-      <input class="search__content__input" />
+      <span class="search__content__icon iconfont">&#xe6c6;</span>
+      <input class="search__content__input" placeholder="请输入商品名称" />
     </div>
   </div>
     <ShopInfo :item="item" :hideBorder="true"/>
@@ -12,12 +15,14 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router'
 import ShopInfo from '../../components/ShopInfo'
 
 export default {
   name: 'Shop',
   components: { ShopInfo },
   setup () {
+    const router = useRouter()
     const item = {
       expressLimit: 0,
       expressPrice: 5,
@@ -27,7 +32,10 @@ export default {
       slogan: 'VIP尊享满89元减4元运费券',
       _id: '1'
     }
-    return { item }
+    const handleBackClick = () => {
+      router.back()
+    }
+    return { item, handleBackClick }
   }
 }
 </script>
@@ -53,8 +61,8 @@ export default {
     border-radius: .16rem;
     &__icon{
       width: .44rem;
-      height: .32rem;
-      background: blue;
+      text-align: center;
+      color: #B7B7B7;
     }
     &__input{
       padding-right: .2rem;
@@ -64,6 +72,10 @@ export default {
       border: none;
       outline: none;
       background: none;
+      font-size: .14rem;
+      &::placeholder{
+        color: #333;
+      }
     }
   }
 }
