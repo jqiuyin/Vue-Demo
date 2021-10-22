@@ -52,7 +52,7 @@ export default {
       margin-right: 0.16rem;
     }
     &__highlight {
-      color: #e93b3b;
+      color: $hightlight-fontColor;
       line-height: 0.18rem;
       font-size: 0.13rem;
       margin: 0.08rem 0 0 0;
