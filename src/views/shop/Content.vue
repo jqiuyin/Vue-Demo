@@ -18,7 +18,7 @@
       >
         <img
           class="product__item__img"
-          src="http://www.dell-lee.com/imgs/vue3/near.png"
+          :src="item.imgUrl"
         />
         <div class="product__item__detail">
           <h4 class="product__item__title">{{item.name}}</h4>
