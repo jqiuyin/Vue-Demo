@@ -6,10 +6,10 @@
             src="http://www.dell-lee.com/imgs/vue3/basket.png"
             class="check__icon__img"
           />
-          <div class="check__icon__tag">1</div>
+          <div class="check__icon__tag">{{ total }}</div>
         </div>
         <div class="check__info">
-          总计：<span class="check__info__price">&yen;127</span>
+          总计：<span class="check__info__price">&yen; {{price}}</span>
         </div>
         <div class="check__btn">去结算</div>
       </div>
@@ -17,7 +17,47 @@
 </template>
 
 <script>
-export default {}
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+
+const useCartEffect = () => {
+  const store = useStore()
+  const route = useRoute()
+  const cartList = store.state.cartList
+  const shopId = route.params.id
+  const total = computed(() => {
+    const productList = cartList[shopId]
+    let count = 0
+    if (productList) {
+      for (const i in productList) {
+        const product = productList[i]
+        count += product.count
+      }
+    }
+    return count
+  })
+  const price = computed(() => {
+    const productList = cartList[shopId]
+    let count = 0
+    if (productList) {
+      for (const i in productList) {
+        const product = productList[i]
+        count += (product.count * product.price)
+      }
+    }
+    return count.toFixed(2)
+  })
+  return { total, price }
+}
+
+export default {
+  name: 'Cart',
+  setup () {
+    const { total, price } = useCartEffect()
+    return { total, price }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -44,17 +84,20 @@ export default {}
     }
     &__tag{
       position: absolute;
-      width: .2rem;
+      left: .46rem;
+      min-width: .2rem;
+      padding: 0 .04rem;
       height: .2rem;
       line-height: .2rem;
       background-color: $hightlight-fontColor;
-      border-radius: 50%;
+      border-radius: .1rem;
       font-size: .12rem;
       text-align: center;
       right: .2rem;
       top: .04rem;
       color: $bgcolor;
       transform: scale(.5);
+      transform-origin: left center;
     }
   }
   &__info{
