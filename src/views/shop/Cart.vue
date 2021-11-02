@@ -1,34 +1,35 @@
 <template>
   <div class="cart">
     <div class="product">
-      <div
-        class="product__item"
+      <template
         v-for="item in productList"
         :key="item._id"
       >
-        <img
-          class="product__item__img"
-          :src="item.imgUrl"
-        />
-        <div class="product__item__detail">
-          <h4 class="product__item__title">{{item.name}}</h4>
-          <p class="product__item__price">
-            <span class="product__item__yen">&yen;</span>{{item.price}}
-            <span class="product__item__origin">&yen;{{item.oldPrice}}</span>
-          </p>
+        <div class="product__item" v-if="item.count > 0">
+          <img
+            class="product__item__img"
+            :src="item.imgUrl"
+          />
+          <div class="product__item__detail">
+            <h4 class="product__item__title">{{item.name}}</h4>
+            <p class="product__item__price">
+              <span class="product__item__yen">&yen;</span>{{item.price}}
+              <span class="product__item__origin">&yen;{{item.oldPrice}}</span>
+            </p>
+          </div>
+          <div class="product__number">
+            <span
+              class="product__number__minus"
+              @click="() => { changeCartItemInfo(shopId, item._id, item, -1) }"
+            >-</span>
+            {{ item.count || 0 }}
+            <span
+              class="product__number__plus"
+              @click="() => { changeCartItemInfo(shopId, item._id, item, 1) }"
+            >+</span>
+          </div>
         </div>
-        <div class="product__number">
-          <span
-            class="product__number__minus"
-            @click="() => { changeCartItemInfo(shopId, item._id, item, -1) }"
-          >-</span>
-          {{ item.count || 0 }}
-          <span
-            class="product__number__plus"
-            @click="() => { changeCartItemInfo(shopId, item._id, item, 1) }"
-          >+</span>
-        </div>
-      </div>
+      </template>
     </div>
       <div class="check">
         <div class="check__icon">
@@ -50,6 +51,7 @@
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+import { useCommonCartEffect } from './commonCartEffect'
 
 const useCartEffect = (shopId) => {
   const store = useStore()
@@ -89,7 +91,8 @@ export default {
     const route = useRoute()
     const shopId = route.params.id
     const { total, price, productList } = useCartEffect(shopId)
-    return { total, price, productList }
+    const { changeCartItemInfo } = useCommonCartEffect()
+    return { total, price, shopId, productList, changeCartItemInfo }
   }
 }
 </script>
