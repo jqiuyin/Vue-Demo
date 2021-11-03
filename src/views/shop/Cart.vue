@@ -6,6 +6,11 @@
         :key="item._id"
       >
         <div class="product__item" v-if="item.count > 0">
+          <div
+            class="product__item__checked iconfont"
+            v-html="item.check ? '&#xe652;':'&#xe6f7;'"
+          >
+          </div>
           <img
             class="product__item__img"
             :src="item.imgUrl"
@@ -54,6 +59,7 @@ import { useRoute } from 'vue-router'
 import { useCommonCartEffect } from './commonCartEffect'
 
 const useCartEffect = (shopId) => {
+  const { changeCartItemInfo } = useCommonCartEffect()
   const store = useStore()
   const cartList = store.state.cartList
   const total = computed(() => {
@@ -82,7 +88,7 @@ const useCartEffect = (shopId) => {
     const productList = cartList[shopId] || []
     return productList
   })
-  return { total, price, productList }
+  return { total, price, productList, changeCartItemInfo }
 }
 
 export default {
@@ -90,8 +96,7 @@ export default {
   setup () {
     const route = useRoute()
     const shopId = route.params.id
-    const { total, price, productList } = useCartEffect(shopId)
-    const { changeCartItemInfo } = useCommonCartEffect()
+    const { total, price, productList, changeCartItemInfo } = useCartEffect(shopId)
     return { total, price, shopId, productList, changeCartItemInfo }
   }
 }
@@ -166,6 +171,12 @@ export default {
     padding: 0.12rem 0;
     margin: 0 0.16rem;
     border-bottom: 0.01rem solid $content-bgColor;
+    &__checked{
+      color: #0091FF;
+      font-size: .2rem;
+      line-height: .5rem;
+      margin-right: .2rem;
+    }
     &__detail{
       overflow: hidden;
     }
