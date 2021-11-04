@@ -1,6 +1,9 @@
 <template>
   <div class="cart">
     <div class="product">
+      <div class="product__header">
+
+      </div>
       <template
         v-for="item in productList"
         :key="item._id"
@@ -9,6 +12,7 @@
           <div
             class="product__item__checked iconfont"
             v-html="item.check ? '&#xe652;':'&#xe6f7;'"
+            @click="() => changeCartItemChecked(shopId,item._id)"
           >
           </div>
           <img
@@ -79,7 +83,9 @@ const useCartEffect = (shopId) => {
     if (productList) {
       for (const i in productList) {
         const product = productList[i]
-        count += (product.count * product.price)
+        if (product.check) {
+          count += (product.count * product.price)
+        }
       }
     }
     return count.toFixed(2)
@@ -88,7 +94,13 @@ const useCartEffect = (shopId) => {
     const productList = cartList[shopId] || []
     return productList
   })
-  return { total, price, productList, changeCartItemInfo }
+
+  const changeCartItemChecked = (shopId, productId) => {
+    store.commit('changeCartChecked', {
+      shopId, productId
+    })
+  }
+  return { total, price, productList, changeCartItemInfo, changeCartItemChecked }
 }
 
 export default {
@@ -96,8 +108,8 @@ export default {
   setup () {
     const route = useRoute()
     const shopId = route.params.id
-    const { total, price, productList, changeCartItemInfo } = useCartEffect(shopId)
-    return { total, price, shopId, productList, changeCartItemInfo }
+    const { total, price, productList, changeCartItemInfo, changeCartItemChecked } = useCartEffect(shopId)
+    return { total, price, shopId, productList, changeCartItemInfo, changeCartItemChecked }
   }
 }
 </script>
@@ -165,6 +177,10 @@ export default {
   flex: 1;
   overflow-y: scroll;
   background: #FFF;
+  &__header {
+    height: .52rem;
+    border-bottom: 1px solid #f1f1f1 ;
+  }
   &__item {
     position: relative;
     display: flex;

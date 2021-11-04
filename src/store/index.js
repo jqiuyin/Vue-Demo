@@ -23,7 +23,13 @@ export default createStore({
       if (product.count < 0) { product.count = 0 }
       shopInfo[productId] = product
       state.cartList[shopId] = shopInfo
+    },
+    changeCartChecked (state, payload) {
+      const { shopId, productId } = payload
+      const product = state.cartList[shopId][productId]
+      product.check = !product.check
     }
+
   },
   actions: {
   },
