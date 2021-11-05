@@ -2,7 +2,16 @@
   <div class="cart">
     <div class="product">
       <div class="product__header">
-
+        <div class="product__header__all">
+          <span class="product__header__icon iconfont">
+            &#xe6f7;
+          </span>
+          全选
+        </div>
+        <div
+          class="product__header__clear"
+          @click="() => cleanCartProducts(shopId)"
+        >清空购物车</div>
       </div>
       <template
         v-for="item in productList"
@@ -100,7 +109,11 @@ const useCartEffect = (shopId) => {
       shopId, productId
     })
   }
-  return { total, price, productList, changeCartItemInfo, changeCartItemChecked }
+
+  const cleanCartProducts = (shopId) => {
+    store.commit('cleanCartProducts', { shopId })
+  }
+  return { total, price, productList, changeCartItemInfo, changeCartItemChecked, cleanCartProducts }
 }
 
 export default {
@@ -108,8 +121,8 @@ export default {
   setup () {
     const route = useRoute()
     const shopId = route.params.id
-    const { total, price, productList, changeCartItemInfo, changeCartItemChecked } = useCartEffect(shopId)
-    return { total, price, shopId, productList, changeCartItemInfo, changeCartItemChecked }
+    const { total, price, productList, changeCartItemInfo, changeCartItemChecked, cleanCartProducts } = useCartEffect(shopId)
+    return { total, price, shopId, productList, changeCartItemInfo, changeCartItemChecked, cleanCartProducts }
   }
 }
 </script>
@@ -178,8 +191,24 @@ export default {
   overflow-y: scroll;
   background: #FFF;
   &__header {
-    height: .52rem;
+    display: flex;
+    line-height: .52rem;
     border-bottom: 1px solid #f1f1f1 ;
+    font-size: .14rem;
+    color: #333;
+    &__all{
+      width: .64rem;
+      margin-left: .18rem;
+    }
+    &__icon{
+      color: #0091FF;
+      font-size: .2rem;
+    }
+    &__clear{
+      margin-right: .16rem;
+      flex: 1;
+      text-align: right;
+    }
   }
   &__item {
     position: relative;
