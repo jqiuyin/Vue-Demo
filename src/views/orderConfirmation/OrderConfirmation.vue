@@ -15,16 +15,49 @@
           <div class="iconfont top__receiver__enter">&#xe6db;</div>
         </div>
       </div>
+      <div class="products">
+        <div class="products__title"></div>
+        <div
+          class="products__list"
+          v-for="item in productList"
+          :key="item._id"
+        >
+          <div class="product__item">
+            <img
+              class="product__item__img"
+              :src="item.imgUrl"
+            />
+            <div class="product__item__detail">
+              <h4 class="product__item__title">{{ item.title }}</h4>
+              <p class="product__item__price">
+                <span class="product__item__yen">&yen;{{item.price}}x{{item.count}}</span>
+                <span class="product__item__yen">&yen;{{item.price *item.count}}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
 </template>
 
 <script>
+import { useCommonCartEffect } from '../../effects/cartEffects'
+import { useRoute } from 'vue-router'
+
 export default {
-  name: 'orderCofirmation'
+  name: 'orderCofirmation',
+  setup () {
+    const route = useRoute()
+    const shopId = route.params.id
+    const { productList } = useCommonCartEffect(shopId)
+    return { productList }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+@import "../../style/viriables.scss";
+@import "../../style/mixins.scss";
 .wrapper{
   position: absolute;
   left: 0;
@@ -91,4 +124,49 @@ export default {
     }
   }
 }
+.products{
+  margin: .16rem .18rem .55rem .18rem;
+  background: #FFF;
+  &___title{
+  }
+  &__list{
+
+  }
+  &__item{
+    flex: 1;
+    overflow-y: scroll;
+    &__item {
+      position: relative;
+      display: flex;
+      padding: 0.12rem 0;
+      margin: 0 0.16rem;
+      border-bottom: 0.01rem solid $content-bgColor;
+      &__detail{
+        overflow: hidden;
+      }
+      &__img {
+        width: 0.68rem;
+        height: 0.68rem;
+        margin-right: 0.16rem;
+      }
+      &__title {
+        margin: 0;
+        line-height: 0.2rem;
+        font-size: 0.14rem;
+        color: $content-fontcolor;
+        @include ellipsis;
+      }
+      &__price {
+        margin: 0;
+        line-height: 0.2rem;
+        font-size: 0.14rem;
+        color: $hightlight-fontColor;
+      }
+      &__yen {
+        font-size: 0.12rem;
+      }
+    }
+  }
+}
+
 </style>
