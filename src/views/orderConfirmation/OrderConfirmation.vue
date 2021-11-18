@@ -16,22 +16,27 @@
         </div>
       </div>
       <div class="products">
-        <div class="products__title"></div>
+        <div class="products__title">
+          {{ shopName }}
+        </div>
         <div
-          class="products__list"
           v-for="item in productList"
           :key="item._id"
         >
-          <div class="product__item">
+          <div class="products__item">
             <img
-              class="product__item__img"
+              class="products__item__img"
               :src="item.imgUrl"
             />
-            <div class="product__item__detail">
-              <h4 class="product__item__title">{{ item.title }}</h4>
-              <p class="product__item__price">
-                <span class="product__item__yen">&yen;{{item.price}}x{{item.count}}</span>
-                <span class="product__item__yen">&yen;{{item.price *item.count}}</span>
+            <div class="products__item__detail">
+              <h4 class="products__item__title">{{ item.name }}</h4>
+              <p class="products__item__price">
+                <span>
+                  <span class="products__item__yen">&yen;</span>{{item.price}}x{{item.count}}
+                </span>
+                <span class="products__item__total">
+                  <span class="products__item__yen">&yen;</span>{{item.price *item.count}}
+                </span>
               </p>
             </div>
           </div>
@@ -49,8 +54,8 @@ export default {
   setup () {
     const route = useRoute()
     const shopId = route.params.id
-    const { productList } = useCommonCartEffect(shopId)
-    return { productList }
+    const { productList, shopName } = useCommonCartEffect(shopId)
+    return { productList, shopName }
   }
 }
 </script>
@@ -127,44 +132,44 @@ export default {
 .products{
   margin: .16rem .18rem .55rem .18rem;
   background: #FFF;
-  &___title{
+  &__title{
+    font-size: .16rem;
+    color: #333;
+    padding: .16rem .16rem 0 .16rem;
   }
-  &__list{
-
-  }
-  &__item{
-    flex: 1;
-    overflow-y: scroll;
-    &__item {
-      position: relative;
+  &__item {
+    position: relative;
+    display: flex;
+    padding: 0.16rem;
+    &__img {
+      width: 0.46rem;
+      height: 0.46rem;
+      margin-right: 0.16rem;
+    }
+    &__detail{
+      flex: 1;
+    }
+    &__title {
+      margin: 0;
+      line-height: 0.2rem;
+      font-size: 0.14rem;
+      color: $content-fontcolor;
+      @include ellipsis;
+    }
+    &__price {
       display: flex;
-      padding: 0.12rem 0;
-      margin: 0 0.16rem;
-      border-bottom: 0.01rem solid $content-bgColor;
-      &__detail{
-        overflow: hidden;
-      }
-      &__img {
-        width: 0.68rem;
-        height: 0.68rem;
-        margin-right: 0.16rem;
-      }
-      &__title {
-        margin: 0;
-        line-height: 0.2rem;
-        font-size: 0.14rem;
-        color: $content-fontcolor;
-        @include ellipsis;
-      }
-      &__price {
-        margin: 0;
-        line-height: 0.2rem;
-        font-size: 0.14rem;
-        color: $hightlight-fontColor;
-      }
-      &__yen {
-        font-size: 0.12rem;
-      }
+      margin: 0.06rem 0 0 0;
+      line-height: 0.2rem;
+      font-size: 0.14rem;
+      color: $hightlight-fontColor;
+    }
+    &__total{
+      text-align: right;
+      color: #000;
+      flex: 1;
+    }
+    &__yen {
+      font-size: 0.12rem;
     }
   }
 }
