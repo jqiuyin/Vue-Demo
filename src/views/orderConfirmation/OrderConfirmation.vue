@@ -42,6 +42,10 @@
           </div>
         </div>
       </div>
+      <div class="order">
+        <div class="order__price">实付金额 <b>￥{{calculations.price}}</b></div>
+        <div class="order__btn">提交订单</div>
+      </div>
   </div>
 </template>
 
@@ -54,8 +58,8 @@ export default {
   setup () {
     const route = useRoute()
     const shopId = route.params.id
-    const { productList, shopName } = useCommonCartEffect(shopId)
-    return { productList, shopName }
+    const { productList, shopName, calculations } = useCommonCartEffect(shopId)
+    return { productList, calculations, shopName }
   }
 }
 </script>
@@ -162,6 +166,7 @@ export default {
       line-height: 0.2rem;
       font-size: 0.14rem;
       color: $hightlight-fontColor;
+      width: 100%;
     }
     &__total{
       text-align: right;
@@ -174,4 +179,27 @@ export default {
   }
 }
 
+.order {
+  display: flex;
+  height: .49rem;
+  line-height: .49rem;
+  background: #fff;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  &__price{
+    flex: 1;
+    text-indent: .24rem;
+    font-size: .14rem;
+    color: #333;
+  }
+  &__btn{
+    width: .98rem;
+    background: #4FB0F9 ;
+    color: #fff;
+    text-align: center;
+    font-size: .14rem;
+  }
+}
 </style>
