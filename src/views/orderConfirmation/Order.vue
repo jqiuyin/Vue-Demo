@@ -24,18 +24,41 @@
 <script>
 import { useCommonCartEffect } from '../../effects/cartEffects'
 import { useRoute } from 'vue-router'
+import { post } from '../../utils/request'
 
 export default {
   name: 'Order',
   setup () {
     const route = useRoute()
-    const shopId = route.params.id
-    const { calculations } = useCommonCartEffect(shopId)
+    const shopId = parseInt(route.params.id, 10)
+    const { calculations, shopName, productList } = useCommonCartEffect(shopId)
     const handleCancleOrder = () => {
       alert('cancle')
     }
-    const handleConfirmOrder = () => {
-      alert('confirm')
+    const handleConfirmOrder = async () => {
+      const products = []
+      for (const i in productList.value) {
+        const product = productList.value[i]
+        products.push({
+          id: parseInt(product._id, 10),
+          num: product.count
+        })
+      }
+      try {
+        const result = await post('/api/order', {
+          addressId: 1,
+          shopId,
+          shopName: shopName.value,
+          isCanceled: false,
+          products
+        })
+        if (result?.errno === 0) {
+        } else {
+          // showToast('登录失败')
+        }
+      } catch (e) {
+        // showToast('请求失败')
+      }
     }
     return { calculations, handleCancleOrder, handleConfirmOrder }
   }
