@@ -18,11 +18,11 @@
         >清空购物车</span>
         </div>
       </div>
-      <template
-        v-for="item in productList"
-        :key="item._id"
-      >
-        <div class="product__item" v-if="item.count > 0">
+        <div
+          class="product__item"
+          v-for="item in productList"
+          :key="item._id"
+        >
           <div
             class="product__item__checked iconfont"
             v-html="item.check ? '&#xe652;':'&#xe6f7;'"
@@ -52,7 +52,6 @@
             >+</span>
           </div>
         </div>
-      </template>
     </div>
       <div class="check">
         <div class="check__icon">

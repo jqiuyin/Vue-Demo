@@ -10,11 +10,11 @@
       <div class="mask__content__btns">
         <div
           class="mask__content__btn mask__content__btn--first"
-          @click="handleCancleOrder"
+          @click="() => handleConfirmOrder(true)"
         >取消订单</div>
         <div
           class="mask__content__btn mask__content__btn--last"
-          @click="handleConfirmOrder"
+          @click="() => handleConfirmOrder(false)"
         >确认支付</div>
       </div>
     </div>
@@ -23,19 +23,19 @@
 
 <script>
 import { useCommonCartEffect } from '../../effects/cartEffects'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { post } from '../../utils/request'
+import { useStore } from 'vuex'
 
 export default {
   name: 'Order',
   setup () {
+    const router = useRouter()
     const route = useRoute()
+    const store = useStore()
     const shopId = parseInt(route.params.id, 10)
     const { calculations, shopName, productList } = useCommonCartEffect(shopId)
-    const handleCancleOrder = () => {
-      alert('cancle')
-    }
-    const handleConfirmOrder = async () => {
+    const handleConfirmOrder = async (isCanceled) => {
       const products = []
       for (const i in productList.value) {
         const product = productList.value[i]
@@ -49,18 +49,18 @@ export default {
           addressId: 1,
           shopId,
           shopName: shopName.value,
-          isCanceled: false,
+          isCanceled,
           products
         })
         if (result?.errno === 0) {
-        } else {
-          // showToast('登录失败')
+          store.commit('clearCartDate', shopId)
+          router.push({ name: 'Home' })
         }
       } catch (e) {
         // showToast('请求失败')
       }
     }
-    return { calculations, handleCancleOrder, handleConfirmOrder }
+    return { calculations, handleConfirmOrder }
   }
 }
 </script>

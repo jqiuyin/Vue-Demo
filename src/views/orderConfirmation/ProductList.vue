@@ -5,13 +5,10 @@
     </div>
     <div class="products__wrapper">
       <div class="products__list">
-        <template
-          v-for="item in productList"
-          :key="item._id"
-        >
           <div
             class="products__item"
-            v-if="item.count > 0"
+            v-for="item in productList"
+            :key="item._id"
           >
             <img
               class="products__item__img"
@@ -29,7 +26,6 @@
               </p>
             </div>
           </div>
-        </template>
       </div>
     </div>
   </div>
