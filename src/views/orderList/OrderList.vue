@@ -2,21 +2,27 @@
   <div class="wrapper">
     <div class="title">我的订单</div>
     <div class="orders">
-      <div class="order">
+      <div class="order" v-for="(item, index) in list" :key="index">
         <div class="order__title">
-          沃尔玛
-          <span class="order__status">已取消</span>
+          {{item.shopName}}
+          <span class="order__status">{{item.isCanceled ? '已取消':'已下单'}}</span>
         </div>
         <div class="order__content">
           <div class="order__content__imgs">
-            <img class="order__content__img" src="http://www.dell-lee.com/imgs/vue3/tomato.png" />
-            <img class="order__content__img" src="http://www.dell-lee.com/imgs/vue3/tomato.png" />
-            <img class="order__content__img" src="http://www.dell-lee.com/imgs/vue3/tomato.png" />
-            <img class="order__content__img" src="http://www.dell-lee.com/imgs/vue3/tomato.png" />
+            <template
+              v-for="(innerItem,inerIndex) in item.products"
+              :key="inerIndex"
+            >
+              <img
+                v-if="inerIndex <= 3"
+                class="order__content__img"
+                :src="innerItem.product.img"
+              />
+            </template>
           </div>
           <div class="order__content__info">
-            <div class="order__content__price">￥36.8</div>
-            <div class="order__content__count">共2件</div>
+            <div class="order__content__price">￥{{(item.totalPrice).toFixed(2)}}</div>
+            <div class="order__content__count">共{{item.totalNumber}}件</div>
           </div>
         </div>
       </div>
@@ -36,6 +42,18 @@ const useOrderListEffect = () => {
     const result = await get('/api/order')
     console.log(result)
     if (result?.errno === 0 && result?.data?.length) {
+      const orderLIst = result.data
+      orderLIst.forEach((order) => {
+        const products = order.products || []
+        let totalPrice = 0
+        let totalNumber = 0
+        products.forEach((productItem) => {
+          totalNumber += (productItem?.orderSales || 0)
+          totalPrice += (productItem?.product.price * productItem?.orderSales || 0)
+        })
+        order.totalPrice = totalPrice
+        order.totalNumber = totalNumber
+      })
       data.list = result.data
     }
   }
@@ -48,7 +66,7 @@ export default {
   name: 'OrderList',
   components: { Docker },
   setup () {
-    const list = useOrderListEffect()
+    const { list } = useOrderListEffect()
     return { list }
   }
 }
